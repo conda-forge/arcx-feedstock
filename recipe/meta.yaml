@@ -1,3 +1,4 @@
+{% set python_min = '3.10.0' %}
 {% set name = "arcx" %}
 {% set version = "0.2.1" %}
 
@@ -6,7 +7,7 @@ package:
   version: {{ version }}
 
 source:
-  url: https://pypi.io/packages/source/{{ name[0] }}/{{ name }}/arcx-{{ version }}.tar.gz
+  url: https://pypi.org/packages/source/{{ name[0] }}/{{ name }}/arcx-{{ version }}.tar.gz
   sha256: 7ffa32cf5f7ec50b61785ab0197ebc57151c335a49377c7469ed861e1e457b41
 
 build:
@@ -14,15 +15,15 @@ build:
     - arcx = arcx.management:start_from_command_line_interface
   noarch: python
   script: {{ PYTHON }} -m pip install . -vv --no-deps --no-build-isolation
-  number: 0
+  number: 1
 
 requirements:
   host:
-    - python >=3.10,<4.0
+    - python {{ python_min }}
     - poetry-core
     - pip
   run:
-    - python >=3.10.0,<4.0.0
+    - python >={{ python_min }},<4.0.0
     - click >=8.1.7,<9.0.0
     - pydantic >=2.8.2,<3.0.0
     - pytest >=8.3.2,<9.0.0
@@ -38,6 +39,7 @@ test:
     - arcx --help
   requires:
     - pip
+    - python {{ python_min }}
 
 about:
   home: https://pypi.org/project/arcx/
